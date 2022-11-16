@@ -24,7 +24,7 @@ const Timestamp = ({ date }) => {
 
   const setUserData = async () => {
     await setDoc(doc(db, "usersData", `${user.uid}`), {
-      amountBooked: userInfo,
+      amountBooked: 0,
     });
   };
   const fetchUserData = async () => {
@@ -36,17 +36,12 @@ const Timestamp = ({ date }) => {
         console.log(docSnap.data().amountBooked);
         setUserInfo(docSnap.data().amountBooked);
       } else {
-        console.log("Document does not exist");
+        setUserData();
+        console.log("Document does not exist added new user");
       }
     } catch (error) {
       console.log(error);
       setError(error);
-    }
-
-    if (userInfo === 0 || userInfo === 1) {
-      return;
-    } else {
-      setUserData();
     }
   };
 

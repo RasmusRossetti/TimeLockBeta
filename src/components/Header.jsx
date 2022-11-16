@@ -28,7 +28,8 @@ const Header = () => {
   const months = date.getMonth();
   const days = date.getDay();
   console.log(date.getDate());
-
+  // setMonth();
+  // setDay();
   return (
     <header className='font-extrabold text-green-50  text-3xl py-10 flex justify-center items-center sm:text-5xl'>
       <h1 className='shadow-lg border-b-8 border-green-300 tracking-wide'>
