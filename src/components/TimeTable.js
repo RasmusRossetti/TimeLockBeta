@@ -3,9 +3,7 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { query, collection, onSnapshot, orderBy } from "firebase/firestore";
 import Timestamp from "./Timestamp";
-import spinner from "../assets/spinning.svg";
-import Loader from "./Loader";
-import SecondLoader from "./SecondLoader";
+import Loader from "./loadercomponents/Loader";
 
 const TimeTable = () => {
   const [dates, setDates] = useState([]);

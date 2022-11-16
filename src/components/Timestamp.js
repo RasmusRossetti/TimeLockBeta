@@ -12,14 +12,12 @@ import {
 import { UserAuth } from "../context/AuthContext";
 import BookButton from "./BookButton";
 import CancelButton from "./CancelButton";
-import Loader from "./Loader";
-import SecondLoader from "./SecondLoader";
+import SecondLoader from "./loadercomponents/SecondLoader";
 
 const Timestamp = ({ date }) => {
   const [timestamps, setTimestamps] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
-  const [userBooking, setUserBooking] = useState();
 
   const { user } = UserAuth();
   const { userInfo, setUserInfo } = UserAuth();
@@ -42,9 +40,10 @@ const Timestamp = ({ date }) => {
       }
     } catch (error) {
       console.log(error);
+      setError(error);
     }
 
-    if (userInfo == 0 || userInfo == 1) {
+    if (userInfo === 0 || userInfo === 1) {
       return;
     } else {
       setUserData();
@@ -86,7 +85,7 @@ const Timestamp = ({ date }) => {
         booked: !timestamp.booked,
         bookingid: "",
       });
-      if (userInfo == 0) {
+      if (userInfo === 0) {
         return;
       } else {
         await handleDecrementBooking();
@@ -144,7 +143,7 @@ const Timestamp = ({ date }) => {
                       />
                     ) : (
                       <h1 className='text-red-200 font-bold flex items-center text-sm'>
-                        {timestamp.bookingid == user.uid ? (
+                        {timestamp.bookingid === user.uid ? (
                           <div>
                             <p>Your booking</p>
                             <CancelButton

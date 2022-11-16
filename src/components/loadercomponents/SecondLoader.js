@@ -2,7 +2,7 @@ import React from "react";
 
 const SecondLoader = () => {
   return (
-    <div class='border-spacing-6  shadow-lg rounded-md p-4 w-64 w-full mx-auto'>
+    <div class='border-spacing-6  shadow-lg rounded-md p-4 w-64  '>
       <div class='animate-pulse flex space-x-4'>
         <div class='flex-1 space-y-6 py-1'>
           <div class='h-2 bg-slate-700 rounded'></div>
