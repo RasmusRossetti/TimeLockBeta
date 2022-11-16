@@ -7,7 +7,7 @@ import {
   updateDoc,
   doc,
   setDoc,
-  getDoc,
+  getDoc
 } from "firebase/firestore";
 import { UserAuth } from "../context/AuthContext";
 import BookButton from "./BookButton";
@@ -25,7 +25,7 @@ const Timestamp = ({ date }) => {
   const setUserData = async () => {
     if (user.uid) {
       const addDoc = await setDoc(doc(db, "usersData", `${user.uid}`), {
-        amountBooked: 0,
+        amountBooked: 0
       });
       return addDoc;
     } else {
@@ -70,20 +70,20 @@ const Timestamp = ({ date }) => {
   }, []);
   const handleIncrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
-      amountBooked: userInfo + 1,
+      amountBooked: userInfo + 1
     });
     console.log(userInfo);
   };
   const handleDecrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
-      amountBooked: userInfo - 1,
+      amountBooked: userInfo - 1
     });
   };
   const cancelTimeStamp = async (timestamp) => {
     if (window.confirm(`Are you sure you want to cancel ${timestamp.id}?`)) {
       await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
         booked: !timestamp.booked,
-        bookingid: "",
+        bookingid: ""
       });
       if (userInfo === 0) {
         return;
@@ -102,7 +102,7 @@ const Timestamp = ({ date }) => {
     if (window.confirm(`Are you sure you want to book ${timestamp.id}?`)) {
       await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
         booked: !timestamp.booked,
-        bookingid: user.uid,
+        bookingid: user.uid
       });
       if (userInfo >= 2) {
         return;
