@@ -24,7 +24,7 @@ const Timestamp = ({ date }) => {
 
   const setUserData = () => {
     setDoc(doc(db, "usersData", `${user.uid}`), {
-      amountBooked: 0,
+      amountBooked: 1,
     });
   };
   const fetchUserData = async () => {
