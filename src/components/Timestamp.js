@@ -22,8 +22,8 @@ const Timestamp = ({ date }) => {
   const { user } = UserAuth();
   const { userInfo, setUserInfo } = UserAuth();
 
-  const setUserData = async () => {
-    await setDoc(doc(db, "usersData", `${user.uid}`), {
+  const setUserData = () => {
+    setDoc(doc(db, "usersData", `${user.uid}`), {
       amountBooked: 0,
     });
   };
