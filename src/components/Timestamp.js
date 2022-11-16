@@ -61,8 +61,8 @@ const Timestamp = ({ date }) => {
   };
 
   useEffect(() => {
-    fetchTimestamps();
     fetchUserData();
+    fetchTimestamps();
   }, []);
   const handleIncrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
