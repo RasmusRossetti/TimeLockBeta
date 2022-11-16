@@ -22,11 +22,12 @@ const Timestamp = ({ date }) => {
   const { user } = UserAuth();
   const { userInfo, setUserInfo } = UserAuth();
 
-  const setUserData = () => {
-    if (user) {
-      setDoc(doc(db, "usersData", `${user.uid}`), {
+  const setUserData = async () => {
+    if (user.uid) {
+      const addDoc = await setDoc(doc(db, "usersData", `${user.uid}`), {
         amountBooked: 0,
       });
+      return addDoc;
     } else {
       console.log("user not exist");
     }
