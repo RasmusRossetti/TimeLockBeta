@@ -23,9 +23,13 @@ const Timestamp = ({ date }) => {
   const { userInfo, setUserInfo } = UserAuth();
 
   const setUserData = () => {
-    setDoc(doc(db, "usersData", `${user.uid}`), {
-      amountBooked: 1,
-    });
+    if (user) {
+      setDoc(doc(db, "usersData", `${user.uid}`), {
+        amountBooked: 0,
+      });
+    } else {
+      console.log("user not exist");
+    }
   };
   const fetchUserData = async () => {
     const docRef = doc(db, `usersData/${user.uid}`);
