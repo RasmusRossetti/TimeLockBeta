@@ -26,6 +26,7 @@ const Timestamp = ({ date }) => {
     await setDoc(doc(db, "usersData", `${user.uid}`), {
       amountBooked: 0,
     });
+    console.log(user.uid);
   };
   const fetchUserData = async () => {
     const docRef = doc(db, `usersData/${user.uid}`);
