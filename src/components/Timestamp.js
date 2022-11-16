@@ -25,7 +25,8 @@ const Timestamp = ({ date }) => {
   const setUserData = async () => {
     if (user.uid) {
       const addDoc = await setDoc(doc(db, "usersData", `${user.uid}`), {
-        amountBooked: userInfo
+        amountBooked: 0,
+        name: "helloworld"
       });
       return addDoc;
     } else {
