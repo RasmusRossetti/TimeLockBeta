@@ -21,12 +21,11 @@ const Timestamp = ({ date }) => {
 
   const { user } = UserAuth();
   const { userInfo, setUserInfo } = UserAuth();
-  const [state, setState] = useState(0);
 
   const setUserData = async () => {
     if (user.uid) {
       const addDoc = await setDoc(doc(db, "usersData", `${user.uid}`), {
-        amountBooked: state
+        amountBooked: userInfo
       });
       return addDoc;
     } else {
