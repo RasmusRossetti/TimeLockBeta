@@ -1,11 +1,19 @@
 import React from "react";
 
-const CancelButton = ({ cancelTimeStamp, timestamp }) => {
+const CancelButton = ({
+  cancelTimeStamp,
+  timestamp,
+  setShowCancelModal,
+  showCancelModal
+}) => {
   return (
     <>
       <button
-        className='text-red-800 font-bold'
-        onClick={() => cancelTimeStamp(timestamp)}
+        className='text-red-400 w-20 font-bold rounded-md hover:bg-gray-400'
+        onClick={() => {
+          cancelTimeStamp(timestamp);
+          setShowCancelModal(!showCancelModal);
+        }}
       >
         Cancel
       </button>

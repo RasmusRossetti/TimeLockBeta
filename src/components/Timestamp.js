@@ -10,14 +10,20 @@ import {
   getDoc
 } from "firebase/firestore";
 import { UserAuth } from "../context/AuthContext";
-import BookButton from "./BookButton";
-import CancelButton from "./CancelButton";
 import SecondLoader from "./loadercomponents/SecondLoader";
+import BookModal from "./modals/BookModal";
+import CancelModal from "./modals/CancelModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Timestamp = ({ date }) => {
   const [timestamps, setTimestamps] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
+  const [showBookModal, setShowBookModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [timestampId, setTimestampId] = useState();
+  const [timestampCopy, setTimestampCopy] = useState();
 
   const { user } = UserAuth();
   const { userInfo, setUserInfo } = UserAuth();
@@ -81,36 +87,71 @@ const Timestamp = ({ date }) => {
     });
   };
   const cancelTimeStamp = async (timestamp) => {
-    if (window.confirm(`Are you sure you want to cancel ${timestamp.id}?`)) {
-      await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
-        booked: !timestamp.booked,
-        bookingid: ""
-      });
-      if (userInfo === 0) {
-        return;
-      } else {
-        await handleDecrementBooking();
-        await fetchUserData();
-      }
+    await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
+      booked: !timestamp.booked,
+      bookingid: ""
+    });
+    if (userInfo === 0) {
+      return;
+    } else {
+      await handleDecrementBooking();
+      await fetchUserData();
+      toast.success(
+        ` Appointment successfully canceled!
+           `,
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark"
+        }
+      );
     }
   };
 
   const bookTimeStamp = async (timestamp) => {
-    if (userInfo >= 1) {
-      alert("you have already booked your maximum appointments");
+    await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
+      booked: !timestamp.booked,
+      bookingid: user.uid
+    });
+    if (userInfo >= 2) {
       return;
-    }
-    if (window.confirm(`Are you sure you want to book ${timestamp.id}?`)) {
-      await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
-        booked: !timestamp.booked,
-        bookingid: user.uid
+    } else {
+      await handleIncrementBooking();
+      await fetchUserData();
+      toast.success("Appointment successfully booked!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark"
       });
-      if (userInfo >= 2) {
-        return;
-      } else {
-        await handleIncrementBooking();
-        await fetchUserData();
-      }
+    }
+  };
+
+  const handleShowBookModal = () => {
+    if (userInfo >= 1) {
+      toast.error("you have already booked your maximum appointments!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark"
+      });
+
+      return;
+    } else {
+      setShowBookModal(!showBookModal);
     }
   };
 
@@ -125,33 +166,39 @@ const Timestamp = ({ date }) => {
               {timestamps?.map((timestamp) => {
                 return (
                   <div
+                    onClick={() => {
+                      if (timestamp.booked == true) {
+                        handleShowBookModal();
+                        setTimestampId(timestamp.id);
+                        setTimestampCopy(timestamp);
+                      } else {
+                        setShowCancelModal(!showCancelModal);
+                        setTimestampId(timestamp.id);
+                        setTimestampCopy(timestamp);
+                      }
+                    }}
                     className={
                       timestamp.booked
-                        ? `bg-green-400 hover:animate-pulse hover:bg-green-300  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center`
-                        : "bg-red-400  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center"
+                        ? `cursor-pointer bg-green-400 hover:animate-pulse hover:bg-green-300  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center`
+                        : "cursor-pointer bg-red-400  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center"
                     }
                     key={timestamp.id}
                   >
                     <p className=' font-bold text-gray-50  p-6'>
                       {timestamp.id}
                     </p>
+                    {console.log(timestamp)}
 
                     {timestamp.booked ? (
-                      <BookButton
-                        error={error}
-                        timestamp={timestamp}
-                        bookTimeStamp={bookTimeStamp}
-                      />
+                      <>
+                        <p className='text-green-800 font-bold mt-6'>book</p>
+                      </>
                     ) : (
                       <h1 className='text-red-200 font-bold flex items-center text-sm'>
                         {timestamp.bookingid === user.uid ? (
                           <div>
                             <p>Your booking</p>
-                            <CancelButton
-                              error={error}
-                              timestamp={timestamp}
-                              cancelTimeStamp={cancelTimeStamp}
-                            />
+                            <p className='text-red-800'>Cancel</p>
                           </div>
                         ) : null}
                       </h1>
@@ -159,6 +206,40 @@ const Timestamp = ({ date }) => {
                   </div>
                 );
               })}{" "}
+              {showBookModal ? (
+                <BookModal
+                  timestampId={timestampId}
+                  setShowBookModal={setShowBookModal}
+                  showBookModal={showBookModal}
+                  error={error}
+                  timestamp={timestampCopy}
+                  bookTimeStamp={bookTimeStamp}
+                />
+              ) : null}
+              {showCancelModal ? (
+                <CancelModal
+                  timestampId={timestampId}
+                  setShowCancelModal={setShowCancelModal}
+                  showCancelModal={showCancelModal}
+                  error={error}
+                  timestamp={timestampCopy}
+                  cancelTimeStamp={cancelTimeStamp}
+                />
+              ) : null}
+              <ToastContainer
+                position='top-center'
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='light'
+              />
+              {/* Same as */}
+              <ToastContainer />
             </>
           )}
         </div>
