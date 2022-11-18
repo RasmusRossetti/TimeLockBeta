@@ -101,7 +101,7 @@ const Timestamp = ({ date }) => {
            `,
         {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -125,7 +125,7 @@ const Timestamp = ({ date }) => {
       await fetchUserData();
       toast.success("Appointment successfully booked!", {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -228,7 +228,7 @@ const Timestamp = ({ date }) => {
               ) : null}
               <ToastContainer
                 position='top-center'
-                autoClose={5000}
+                autoClose={3000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
