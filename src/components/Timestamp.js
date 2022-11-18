@@ -179,8 +179,8 @@ const Timestamp = ({ date }) => {
                     }}
                     className={
                       timestamp.booked
-                        ? `cursor-pointer bg-green-400 hover:animate-pulse hover:bg-green-300  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center`
-                        : "cursor-pointer bg-red-400  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center"
+                        ? `cursor-pointer bg-green-400 hover:animate-pulse hover:bg-green-300  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center transition ease-in-out  duration-100`
+                        : "cursor-pointer bg-red-400  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center transition ease-in-out  duration-100"
                     }
                     key={timestamp.id}
                   >
