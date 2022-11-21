@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const BookButton = ({
   bookTimeStamp,
@@ -11,16 +11,16 @@ const BookButton = ({
   return (
     <>
       <button
-        className='text-green-500 font-bold w-20 hover:bg-gray-400 rounded-md'
+        className="bg-green-200 text-green-600 font-bold w-20 hover:bg-green-100 rounded-md"
         onClick={() => {
-          setShowBookModal(!showBookModal);
-          bookTimeStamp(timestamp);
+          setShowBookModal(!showBookModal)
+          bookTimeStamp(timestamp)
         }}
       >
         book
       </button>
     </>
-  );
-};
+  )
+}
 
-export default BookButton;
+export default BookButton

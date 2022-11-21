@@ -1,25 +1,26 @@
-import { Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
-import NavBar from "./components/NavBar";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
-import TimeTable from "./components/TimeTable";
-import { AuthContextProvider } from "./context/AuthContext";
+import { Suspense } from "react"
+import { Route, Routes } from "react-router-dom"
+import Header from "./components/Header"
+import NavBar from "./components/NavBar"
+import ProtectedRoute from "./components/ProtectedRoute"
+import Signin from "./components/Signin"
+import Signup from "./components/Signup"
+import TimeTable from "./components/TimeTable"
+import { AuthContextProvider } from "./context/AuthContext"
 
 function App() {
-  console.log();
+  console.log()
 
   return (
-    <div className='h-full bg-cover  bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r'>
+    <div className="bg-[#1A1A1A]">
+      {/* // <div className='h-full bg-cover  bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r'> */}
       <AuthContextProvider>
         <Routes>
-          <Route path='/' element={<Signin />} />
+          <Route path="/" element={<Signin />} />
 
-          <Route path='/signup' element={<Signup />} />
+          <Route path="/signup" element={<Signup />} />
           <Route
-            path='/account'
+            path="/account"
             element={
               <ProtectedRoute>
                 <NavBar />
@@ -32,8 +33,9 @@ function App() {
           />
         </Routes>
       </AuthContextProvider>
+      {/* // </div> */}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
