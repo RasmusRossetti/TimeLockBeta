@@ -7,6 +7,7 @@ import Signin from "./components/Signin"
 import Signup from "./components/Signup"
 import TimeTable from "./components/TimeTable"
 import { AuthContextProvider } from "./context/AuthContext"
+import { ToastContainer } from "react-toastify"
 
 function App() {
   console.log()
@@ -32,7 +33,20 @@ function App() {
             }
           />
         </Routes>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </AuthContextProvider>
+
       {/* // </div> */}
     </div>
   )

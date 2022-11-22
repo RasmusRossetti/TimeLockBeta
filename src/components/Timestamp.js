@@ -13,7 +13,7 @@ import { UserAuth } from "../context/AuthContext"
 import SecondLoader from "./loadercomponents/SecondLoader"
 import BookModal from "./modals/BookModal"
 import CancelModal from "./modals/CancelModal"
-import { ToastContainer, toast } from "react-toastify"
+import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 const Timestamp = ({ date }) => {
@@ -100,6 +100,7 @@ const Timestamp = ({ date }) => {
         ` Appointment successfully canceled!
            `,
         {
+          toastId: "canceled1",
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -124,6 +125,7 @@ const Timestamp = ({ date }) => {
       await handleIncrementBooking()
       await fetchUserData()
       toast.success("Appointment successfully booked!", {
+        toastId: "success1",
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -226,20 +228,6 @@ const Timestamp = ({ date }) => {
                   cancelTimeStamp={cancelTimeStamp}
                 />
               ) : null}
-              <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-              />
-              {/* Same as */}
-              <ToastContainer />
             </>
           )}
         </div>
