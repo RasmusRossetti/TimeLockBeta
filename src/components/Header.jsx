@@ -24,30 +24,39 @@ const Header = () => {
   useEffect(() => {
     setDbMonth(months)
   }, [months])
+
   const incrementMonth = () => {
     if (dbMonth == 11) {
-      setDbMonth(11)
+      setDbMonth(0)
     } else {
       setDbMonth(dbMonth + 1)
     }
   }
+
   const decrementMonth = () => {
     if (dbMonth == 0) {
-      setDbMonth(0)
+      setDbMonth(11)
     } else {
       setDbMonth(dbMonth - 1)
     }
   }
+
   return (
     <header className=" sticky top-24 z-50 font-extrabold text-green-50  text-3xl py-10 flex justify-center items-center sm:text-5xl">
-      <button onClick={decrementMonth} className="text-xs mr-6 bg-[#1A1A1A]">
+      <button
+        onClick={decrementMonth}
+        className="text-xs mr-6 bg-[#1A1A1A] hover:text-red-300 transition ease-in-out  duration-200"
+      >
         previous month{" "}
       </button>
       <h1 className="bg-[#1A1A1A] shadow-lg border-b-8 border-blue-300 tracking-wide">
         {month[dbMonth].d}
       </h1>
       {/* {date.getDate()}, {day[days].dy} */}
-      <button onClick={incrementMonth} className="text-xs ml-6 bg-[#1A1A1A]">
+      <button
+        onClick={incrementMonth}
+        className="text-xs ml-6 bg-[#1A1A1A] hover:text-blue-300 transition ease-in-out  duration-200"
+      >
         next month
       </button>
     </header>

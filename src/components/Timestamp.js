@@ -89,22 +89,25 @@ const Timestamp = ({ date }) => {
       return () => unsubscribe()
     })
   }
-  console.log(month[dbMonth])
+
   useEffect(() => {
     fetchUserData()
     fetchTimestamps()
   }, [dbMonth])
+
   const handleIncrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
       amountBooked: userInfo + 1
     })
     console.log(userInfo)
   }
+
   const handleDecrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
       amountBooked: userInfo - 1
     })
   }
+
   const cancelTimeStamp = async (timestamp) => {
     await updateDoc(
       doc(db, `${month[dbMonth]}/${date}/timestamps`, timestamp.id),
@@ -122,7 +125,6 @@ const Timestamp = ({ date }) => {
         ` Appointment successfully canceled!
            `,
         {
-          toastId: "canceled1",
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -144,13 +146,12 @@ const Timestamp = ({ date }) => {
         bookingId: user.uid
       }
     )
-    if (userInfo >= 2) {
+    if (userInfo >= 3) {
       return
     } else {
       await handleIncrementBooking()
       await fetchUserData()
       toast.success("Appointment successfully booked!", {
-        toastId: "success1",
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -164,7 +165,7 @@ const Timestamp = ({ date }) => {
   }
 
   const handleShowBookModal = () => {
-    if (userInfo >= 1) {
+    if (userInfo >= 2) {
       toast.error("you have already booked your maximum appointments!", {
         position: "top-center",
         autoClose: 5000,
