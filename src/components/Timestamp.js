@@ -58,7 +58,7 @@ const Timestamp = ({ date }) => {
   }
 
   const fetchTimestamps = async () => {
-    const collectionRef = await collection(db, `dates/${date}/timestamps`)
+    const collectionRef = await collection(db, `january/${date}/timestamps`)
     const q = await query(collectionRef)
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let timeStampArr = []
@@ -87,9 +87,9 @@ const Timestamp = ({ date }) => {
     })
   }
   const cancelTimeStamp = async (timestamp) => {
-    await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
+    await updateDoc(doc(db, `january/${date}/timestamps`, timestamp.id), {
       booked: !timestamp.booked,
-      bookingid: ""
+      bookingId: ""
     })
     if (userInfo === 0) {
       return
@@ -115,9 +115,9 @@ const Timestamp = ({ date }) => {
   }
 
   const bookTimeStamp = async (timestamp) => {
-    await updateDoc(doc(db, `dates/${date}/timestamps`, timestamp.id), {
+    await updateDoc(doc(db, `january/${date}/timestamps`, timestamp.id), {
       booked: !timestamp.booked,
-      bookingid: user.uid
+      bookingId: user.uid
     })
     if (userInfo >= 2) {
       return
@@ -175,7 +175,7 @@ const Timestamp = ({ date }) => {
                         setTimestampCopy(timestamp)
                       }
 
-                      if (timestamp.bookingid == user.uid) {
+                      if (timestamp.bookingId == user.uid) {
                         setShowCancelModal(!showCancelModal)
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
@@ -191,7 +191,6 @@ const Timestamp = ({ date }) => {
                     <p className=" font-bold text-gray-50  p-6">
                       {timestamp.id}
                     </p>
-                    {console.log(timestamp)}
 
                     {timestamp.booked ? (
                       <>
@@ -199,7 +198,7 @@ const Timestamp = ({ date }) => {
                       </>
                     ) : (
                       <h1 className="text-red-200 font-bold flex items-center text-sm">
-                        {timestamp.bookingid === user.uid ? (
+                        {timestamp.bookingId === user.uid ? (
                           <div>
                             <p>Your booking</p>
                             <p className="text-red-800">Cancel</p>

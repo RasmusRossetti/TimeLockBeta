@@ -8,6 +8,7 @@ import Signup from "./components/Signup"
 import TimeTable from "./components/TimeTable"
 import { AuthContextProvider } from "./context/AuthContext"
 import { ToastContainer } from "react-toastify"
+import { AddDock } from "./components/AddDock"
 
 function App() {
   console.log()
@@ -18,7 +19,7 @@ function App() {
       <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Signin />} />
-
+          <Route path="/AddDock" element={<AddDock />} />
           <Route path="/signup" element={<Signup />} />
           <Route
             path="/account"
