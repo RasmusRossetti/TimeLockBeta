@@ -49,7 +49,7 @@ const Header = () => {
       >
         previous month{" "}
       </button>
-      <h1 className="bg-[#1A1A1A] shadow-lg border-b-8 border-blue-300 tracking-wide">
+      <h1 className=" p-1 bg-[#1A1A1A] shadow-lg border-b-8 border-blue-300 tracking-wide">
         {month[dbMonth].d}
       </h1>
       {/* {date.getDate()}, {day[days].dy} */}
