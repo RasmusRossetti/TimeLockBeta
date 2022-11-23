@@ -173,7 +173,9 @@ const Timestamp = ({ date }) => {
                         handleShowBookModal()
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
-                      } else {
+                      }
+
+                      if (timestamp.bookingid == user.uid) {
                         setShowCancelModal(!showCancelModal)
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
