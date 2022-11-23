@@ -4,13 +4,31 @@ import { db } from "../firebase"
 import { query, collection, onSnapshot, orderBy } from "firebase/firestore"
 import Timestamp from "./Timestamp"
 import Loader from "./loadercomponents/Loader"
+import { UserAuth } from "../context/AuthContext"
 
 const TimeTable = () => {
   const [dates, setDates] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const [month, setMonth] = useState([
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december"
+  ])
+
+  const { dbMonth } = UserAuth()
+
   const fetchDates = async () => {
-    const collectionRef = await collection(db, `dates`)
+    const collectionRef = await collection(db, `${month[dbMonth]}`)
     const q = await query(collectionRef, orderBy("date", "asc"))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let todosArr = []

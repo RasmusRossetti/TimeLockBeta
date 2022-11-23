@@ -9,6 +9,7 @@ import TimeTable from "./components/TimeTable"
 import { AuthContextProvider } from "./context/AuthContext"
 import { ToastContainer } from "react-toastify"
 import { AddDock } from "./components/AddDock"
+import { Footer } from "./components/Footer"
 
 function App() {
   console.log()
@@ -27,9 +28,8 @@ function App() {
               <ProtectedRoute>
                 <NavBar />
                 <Header />
-                <Suspense fallback={<p>loading...</p>}>
-                  <TimeTable />
-                </Suspense>
+                <TimeTable />
+                <Footer />
               </ProtectedRoute>
             }
           />

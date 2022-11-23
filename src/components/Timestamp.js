@@ -25,8 +25,24 @@ const Timestamp = ({ date }) => {
   const [timestampId, setTimestampId] = useState()
   const [timestampCopy, setTimestampCopy] = useState()
 
+  const [month, setMonth] = useState([
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december"
+  ])
+
   const { user } = UserAuth()
   const { userInfo, setUserInfo } = UserAuth()
+  const { dbMonth } = UserAuth()
 
   const setUserData = async () => {
     if (user.uid) {
@@ -58,7 +74,10 @@ const Timestamp = ({ date }) => {
   }
 
   const fetchTimestamps = async () => {
-    const collectionRef = await collection(db, `january/${date}/timestamps`)
+    const collectionRef = await collection(
+      db,
+      `${month[dbMonth]}/${date}/timestamps`
+    )
     const q = await query(collectionRef)
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let timeStampArr = []
@@ -70,11 +89,11 @@ const Timestamp = ({ date }) => {
       return () => unsubscribe()
     })
   }
-
+  console.log(month[dbMonth])
   useEffect(() => {
     fetchUserData()
     fetchTimestamps()
-  }, [])
+  }, [dbMonth])
   const handleIncrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
       amountBooked: userInfo + 1
@@ -87,10 +106,13 @@ const Timestamp = ({ date }) => {
     })
   }
   const cancelTimeStamp = async (timestamp) => {
-    await updateDoc(doc(db, `january/${date}/timestamps`, timestamp.id), {
-      booked: !timestamp.booked,
-      bookingId: ""
-    })
+    await updateDoc(
+      doc(db, `${month[dbMonth]}/${date}/timestamps`, timestamp.id),
+      {
+        booked: !timestamp.booked,
+        bookingId: ""
+      }
+    )
     if (userInfo === 0) {
       return
     } else {
@@ -115,10 +137,13 @@ const Timestamp = ({ date }) => {
   }
 
   const bookTimeStamp = async (timestamp) => {
-    await updateDoc(doc(db, `january/${date}/timestamps`, timestamp.id), {
-      booked: !timestamp.booked,
-      bookingId: user.uid
-    })
+    await updateDoc(
+      doc(db, `${month[dbMonth]}/${date}/timestamps`, timestamp.id),
+      {
+        booked: !timestamp.booked,
+        bookingId: user.uid
+      }
+    )
     if (userInfo >= 2) {
       return
     } else {
