@@ -183,7 +183,7 @@ const Timestamp = ({ date }) => {
                     }}
                     className={
                       timestamp.booked
-                        ? `cursor-pointer bg-gray-800 hover:animate-pulse hover:bg-green-300  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center transition ease-in-out  duration-100`
+                        ? `cursor-pointer bg-[#343a40] hover:animate-pulse hover:bg-green-300  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center transition ease-in-out  duration-100`
                         : "cursor-pointer bg-red-400  shadow-2xl rounded-lg m-3 w-60 flex align-middle justify-center transition ease-in-out  duration-100"
                     }
                     key={timestamp.id}
@@ -195,7 +195,7 @@ const Timestamp = ({ date }) => {
 
                     {timestamp.booked ? (
                       <>
-                        <p className="text-green-800 font-bold mt-6">book</p>
+                        <p className="text-green-300 font-bold mt-6">book</p>
                       </>
                     ) : (
                       <h1 className="text-red-200 font-bold flex items-center text-sm">
