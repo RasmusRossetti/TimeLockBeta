@@ -1,4 +1,3 @@
-import { Suspense } from "react"
 import { Route, Routes } from "react-router-dom"
 import Header from "./components/Header"
 import NavBar from "./components/NavBar"
@@ -12,8 +11,6 @@ import { AddDock } from "./components/AddDock"
 import { Footer } from "./components/Footer"
 
 function App() {
-  console.log()
-
   return (
     <div className="bg-[#1A1A1A]">
       {/* // <div className='h-full bg-cover  bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r'> */}
