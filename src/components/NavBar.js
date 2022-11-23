@@ -16,7 +16,7 @@ const NavBar = () => {
     }
   }
   return (
-    <div className="bg-[#1A1A1A] shadow-lg  ">
+    <div className="bg-[#1A1A1A] shadow-lg  sticky top-0 z-50">
       <div className=" font-extrabold text-green-50  sm:text-1xl md:text-2xl h-32 flex justify-between items-center w-[90%] m-auto">
         <div>
           <h1 className=" tracking-widest cursor-pointer bg-[rgba(0, 0, 0,5)] text-3xl w-40 flex justify-center">
@@ -40,7 +40,7 @@ const NavBar = () => {
         </p> */}
           <button
             onClick={handleLogout}
-            className="hover:text-gray-600 hover:bg-white  border rounded-md px-6 py-2 pr-5 transition ease-in-out  duration-100 "
+            className="hover:text-gray-600 hover:bg-white  border rounded-md px-6 py-2 pr-5 transition ease-in-out  duration-200"
           >
             Logout
           </button>
