@@ -42,7 +42,7 @@ const Signin = () => {
             <label className="py-2 font-medium">Email Address</label>
             <input
               onChange={(e) => setEmail(e.target.value)}
-              className="border p-3 text-black"
+              className="border p-3 text-black rounded-md"
               type="email"
             />
           </div>
@@ -50,12 +50,12 @@ const Signin = () => {
             <label className="py-2 font-medium">Password</label>
             <input
               onChange={(e) => setPassword(e.target.value)}
-              className="border p-3 text-black"
+              className="border p-3 text-black rounded-md"
               type={type}
             />
             <button
               type="button"
-              className=" w-32 mt-4 m-auto hover:text-gray-600"
+              className=" w-32 mt-4 m-auto hover:text-gray-600 "
               onClick={() => {
                 if (type === "password") {
                   setType("text")
@@ -68,7 +68,7 @@ const Signin = () => {
             </button>
           </div>
 
-          <button className="border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white">
+          <button className="rounded-md border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white">
             Sign In
           </button>
         </form>
