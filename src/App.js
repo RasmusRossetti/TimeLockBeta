@@ -13,7 +13,6 @@ import { Footer } from "./components/Footer"
 function App() {
   return (
     <div className="bg-[#1A1A1A]">
-      {/* // <div className='h-full bg-cover  bg-gradient-to-b from-gray-900 to-gray-600 bg-gradient-to-r'> */}
       <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Signin />} />
