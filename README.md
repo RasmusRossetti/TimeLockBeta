@@ -23,7 +23,7 @@ The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
 ## Feedback and Support
-We are constantly working to improve Timelock, and your feedback is important to us. If you have any suggestions or issues with the app, please contact our support team at support@timelock.com.
+We are constantly working to improve Timelock, and your feedback is important to us. If you have any suggestions or issues with the app, please contact our support team at rasmus.rossetti@hotmail.com.
 
 ## About the Developer
 Timelock was developed by Rasmus Rossetti, an experienced app developer with a passion for creating simple, yet powerful apps that make life easier. If you have any questions or would like to learn more about Timelock, please feel free to get in touch.
