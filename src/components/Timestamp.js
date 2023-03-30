@@ -25,7 +25,7 @@ const Timestamp = ({ date }) => {
   const [timestampId, setTimestampId] = useState()
   const [timestampCopy, setTimestampCopy] = useState()
 
-  const [month, setMonth] = useState([
+  const month = [
     "january",
     "february",
     "march",
@@ -38,7 +38,7 @@ const Timestamp = ({ date }) => {
     "october",
     "november",
     "december"
-  ])
+  ]
 
   const { user } = UserAuth()
   const { userInfo, setUserInfo } = UserAuth()
