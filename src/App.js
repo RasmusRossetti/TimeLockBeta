@@ -44,8 +44,6 @@ function App() {
           theme="light"
         />
       </AuthContextProvider>
-
-      {/* // </div> */}
     </div>
   )
 }
