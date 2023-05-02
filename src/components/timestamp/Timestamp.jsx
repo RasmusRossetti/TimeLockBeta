@@ -15,7 +15,7 @@ import BookModal from "../modals/BookModal"
 import CancelModal from "../modals/CancelModal"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import TimeStampUtil from "./hooks/useBookingCounter"
+import useBookingCounter from "./hooks/useBookingCounter"
 
 const Timestamp = ({ date }) => {
   const [timestamps, setTimestamps] = useState()
@@ -25,7 +25,7 @@ const Timestamp = ({ date }) => {
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [timestampId, setTimestampId] = useState()
   const [timestampCopy, setTimestampCopy] = useState()
-  const [handleDecrementBooking, handleIncrementBooking] = TimeStampUtil()
+  const [handleDecrementBooking, handleIncrementBooking] = useBookingCounter()
 
   const month = [
     "january",

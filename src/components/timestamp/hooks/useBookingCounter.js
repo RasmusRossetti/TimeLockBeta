@@ -2,7 +2,7 @@ import { UserAuth } from "../../../context/AuthContext"
 import { db } from "../../../firebase"
 import { updateDoc, doc } from "firebase/firestore"
 
-const TimeStampUtil = () => {
+const useBookingCounter = () => {
   const { userInfo, user } = UserAuth()
 
   const handleIncrementBooking = async () => {
@@ -18,4 +18,4 @@ const TimeStampUtil = () => {
   return [handleDecrementBooking, handleIncrementBooking]
 }
 
-export default TimeStampUtil
+export default useBookingCounter
