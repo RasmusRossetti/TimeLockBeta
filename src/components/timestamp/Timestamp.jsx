@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { db } from "../firebase"
+import { db } from "../../firebase"
 import {
   query,
   collection,
@@ -9,12 +9,13 @@ import {
   setDoc,
   getDoc
 } from "firebase/firestore"
-import { UserAuth } from "../context/AuthContext"
-import SecondLoader from "./loadercomponents/SecondLoader"
-import BookModal from "./modals/BookModal"
-import CancelModal from "./modals/CancelModal"
+import { UserAuth } from "../../context/AuthContext"
+import SecondLoader from "../loadercomponents/SecondLoader"
+import BookModal from "../modals/BookModal"
+import CancelModal from "../modals/CancelModal"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import TimeStampUtil from "./hooks/useBookingCounter"
 
 const Timestamp = ({ date }) => {
   const [timestamps, setTimestamps] = useState()
@@ -24,6 +25,7 @@ const Timestamp = ({ date }) => {
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [timestampId, setTimestampId] = useState()
   const [timestampCopy, setTimestampCopy] = useState()
+  const [handleDecrementBooking, handleIncrementBooking] = TimeStampUtil()
 
   const month = [
     "january",
@@ -94,19 +96,6 @@ const Timestamp = ({ date }) => {
     fetchUserData()
     fetchTimestamps()
   }, [dbMonth])
-
-  const handleIncrementBooking = async () => {
-    await updateDoc(doc(db, `usersData`, `${user.uid}`), {
-      amountBooked: userInfo + 1
-    })
-    console.log(userInfo)
-  }
-
-  const handleDecrementBooking = async () => {
-    await updateDoc(doc(db, `usersData`, `${user.uid}`), {
-      amountBooked: userInfo - 1
-    })
-  }
 
   const cancelTimeStamp = async (timestamp) => {
     await updateDoc(
