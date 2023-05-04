@@ -7,7 +7,8 @@ export default function CancelModal({
   timestampId,
   error,
   timestamp,
-  cancelTimeStamp
+  cancelTimeStamp,
+  handleUserCancellation
 }) {
   return (
     <>
@@ -36,6 +37,7 @@ export default function CancelModal({
                   cancelTimeStamp={cancelTimeStamp}
                   setShowCancelModal={setShowCancelModal}
                   showCancelModal={showCancelModal}
+                  handleUserCancellation={handleUserCancellation}
                 />
                 <button
                   className="text-white w-20 h-10 bg-slate-400 hover:bg-gray-500 rounded-md"

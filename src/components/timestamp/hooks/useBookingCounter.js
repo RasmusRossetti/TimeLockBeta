@@ -7,12 +7,12 @@ const useBookingCounter = () => {
 
   const handleIncrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
-      amountBooked: userInfo + 1
+      amountBooked: userInfo.amountBooked + 1
     })
   }
   const handleDecrementBooking = async () => {
     await updateDoc(doc(db, `usersData`, `${user.uid}`), {
-      amountBooked: userInfo - 1
+      amountBooked: userInfo.amountBooked - 1
     })
   }
   return [handleDecrementBooking, handleIncrementBooking]

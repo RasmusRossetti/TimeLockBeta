@@ -2,6 +2,7 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 import { UserAuth } from "../context/AuthContext"
 import "../global.css"
+import DropDown from "./DropDown"
 
 const NavBar = () => {
   const { user, logout } = UserAuth()
@@ -32,12 +33,14 @@ const NavBar = () => {
           <span className="animate-pulse text-blue-300 ">WELCOME! </span>
           <span className="invisible">a</span> TO YOUR DASHBOARD!
         </p>
+        <DropDown />
 
         <div className="md:w-44">
           {/* <p className='text-md pr-5 pt-2 tracking-wide max-w-sm hidden md:inline-block'>
           {" "}
           {user && user.email}
         </p> */}
+
           <button
             onClick={handleLogout}
             className="hover:text-gray-600 hover:bg-white  border rounded-md px-6 py-2 pr-5 transition ease-in-out  duration-200"

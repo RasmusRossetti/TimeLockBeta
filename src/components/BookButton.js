@@ -4,7 +4,8 @@ const BookButton = ({
   bookTimeStamp,
   timestamp,
   showBookModal,
-  setShowBookModal
+  setShowBookModal,
+  handleUserBookingDate
 }) => {
   // Update todo in firebase
 
@@ -16,6 +17,7 @@ const BookButton = ({
         onClick={() => {
           setShowBookModal(!showBookModal)
           bookTimeStamp(timestamp)
+          handleUserBookingDate(timestamp)
         }}
       >
         book

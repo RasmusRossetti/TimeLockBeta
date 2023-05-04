@@ -7,7 +7,8 @@ export default function BookModal({
   timestampId,
   error,
   timestamp,
-  bookTimeStamp
+  bookTimeStamp,
+  handleUserBookingDate
 }) {
   return (
     <>
@@ -36,6 +37,7 @@ export default function BookModal({
                   bookTimeStamp={bookTimeStamp}
                   setShowBookModal={setShowBookModal}
                   showBookModal={showBookModal}
+                  handleUserBookingDate={handleUserBookingDate}
                 />
 
                 <button

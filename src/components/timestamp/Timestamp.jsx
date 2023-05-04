@@ -7,7 +7,9 @@ import {
   updateDoc,
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  arrayUnion,
+  arrayRemove
 } from "firebase/firestore"
 import { UserAuth } from "../../context/AuthContext"
 import SecondLoader from "../loadercomponents/SecondLoader"
@@ -26,6 +28,9 @@ const Timestamp = ({ date }) => {
   const [timestampId, setTimestampId] = useState()
   const [timestampCopy, setTimestampCopy] = useState()
   const [handleDecrementBooking, handleIncrementBooking] = useBookingCounter()
+  const { user } = UserAuth()
+  const { userInfo, setUserInfo, setDateResponse, setGlobalDate } = UserAuth()
+  const { dbMonth } = UserAuth()
 
   const month = [
     "january",
@@ -42,32 +47,32 @@ const Timestamp = ({ date }) => {
     "december"
   ]
 
-  const { user } = UserAuth()
-  const { userInfo, setUserInfo } = UserAuth()
-  const { dbMonth } = UserAuth()
-
   const setUserData = async () => {
     if (user.uid) {
       const addDoc = await setDoc(doc(db, "usersData", `${user.uid}`), {
         amountBooked: 0,
-        name: `${user.email}`
+        name: `${user.email}`,
+        dateBooked: [],
+        timeBooked: [],
+        monthBooked: []
       })
       return addDoc
     } else {
       console.log("user not exist")
     }
   }
+
   const fetchUserData = async () => {
     const docRef = doc(db, `usersData/${user.uid}`)
 
     try {
       const docSnap = await getDoc(docRef)
       if (docSnap.exists()) {
-        console.log(docSnap.data().amountBooked)
-        setUserInfo(docSnap.data().amountBooked)
+        const userData = docSnap.data()
+        setUserInfo(userData)
       } else {
         setUserData()
-        console.log("Document does not exist added new user")
+        console.log("Document does not exist, added new user.")
       }
     } catch (error) {
       console.log(error)
@@ -87,11 +92,11 @@ const Timestamp = ({ date }) => {
         timeStampArr.push({ ...doc.data(), id: doc.id })
       })
       setIsLoading(false)
+      setDateResponse(timeStampArr)
       setTimestamps(timeStampArr)
-      return () => unsubscribe()
     })
+    return () => unsubscribe()
   }
-
   useEffect(() => {
     fetchUserData()
     fetchTimestamps()
@@ -105,7 +110,7 @@ const Timestamp = ({ date }) => {
         bookingId: ""
       }
     )
-    if (userInfo === 0) {
+    if (userInfo.amountBooked === 0) {
       return
     } else {
       await handleDecrementBooking()
@@ -126,8 +131,60 @@ const Timestamp = ({ date }) => {
       )
     }
   }
+  const handleUserBookingDate = async (timestamp) => {
+    const isAlreadyBooked = userInfo.dateBooked.includes(date)
+    if (isAlreadyBooked) {
+      return
+    }
+    const userRef = doc(db, "usersData", user.uid)
+
+    const userDoc = await getDoc(userRef)
+
+    const currentTimes = userDoc.data().timeBooked
+    const currentMonths = userDoc.data().monthBooked
+
+    const newTimes = currentTimes.concat(timestamp.id)
+    const newMonth = currentMonths.concat(month[dbMonth])
+
+    // Update the array with the new values
+    await updateDoc(userRef, {
+      dateBooked: arrayUnion(date),
+      timeBooked: newTimes,
+      monthBooked: newMonth
+    })
+  }
+
+  const handleUserCancellation = async (timestamp) => {
+    console.log(timestamp.id)
+    const userDataRef = doc(db, `usersData`, `${user.uid}`)
+    const userDataSnap = await getDoc(userDataRef)
+    const userData = userDataSnap.data()
+    const dateIndex = userData.dateBooked.indexOf(date)
+    const timeIndex = userData.timeBooked.indexOf(timestamp.id)
+    const monthIndex = userData.monthBooked.indexOf(month[dbMonth])
+
+    if (dateIndex > -1) {
+      userData.dateBooked.splice(dateIndex, 1)
+    }
+    if (timeIndex > -1) {
+      userData.timeBooked.splice(timeIndex, 1)
+    }
+    if (monthIndex > -1) {
+      userData.monthBooked.splice(monthIndex, 1)
+    }
+    await updateDoc(userDataRef, {
+      dateBooked: userData.dateBooked,
+      timeBooked: userData.timeBooked,
+      monthBooked: userData.monthBooked
+    })
+  }
 
   const bookTimeStamp = async (timestamp) => {
+    const isAlreadyBooked = userInfo.dateBooked.includes(date)
+    if (isAlreadyBooked) {
+      return
+    }
+
     await updateDoc(
       doc(db, `${month[dbMonth]}/${date}/timestamps`, timestamp.id),
       {
@@ -135,7 +192,7 @@ const Timestamp = ({ date }) => {
         bookingId: user.uid
       }
     )
-    if (userInfo >= 3) {
+    if (userInfo.amountBooked >= 3) {
       return
     } else {
       await handleIncrementBooking()
@@ -154,7 +211,7 @@ const Timestamp = ({ date }) => {
   }
 
   const handleShowBookModal = () => {
-    if (userInfo >= 2) {
+    if (userInfo.amountBooked >= 2) {
       toast.error("you have already booked your maximum appointments!", {
         position: "top-center",
         autoClose: 5000,
@@ -184,13 +241,33 @@ const Timestamp = ({ date }) => {
                 return (
                   <div
                     onClick={() => {
+                      const isAlreadyBooked = userInfo.dateBooked.includes(date)
+                      const isCurrentUserBooking =
+                        timestamp.bookingId === user.uid
+                      if (isAlreadyBooked && !isCurrentUserBooking) {
+                        toast.error(
+                          "You have already booked a slot for this date",
+                          {
+                            position: "top-center",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark"
+                          }
+                        )
+                        return
+                      }
+                      setGlobalDate(date)
                       if (timestamp.booked == true) {
                         handleShowBookModal()
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
                       }
-
-                      if (timestamp.bookingId == user.uid) {
+                      if (isCurrentUserBooking) {
+                        // show cancel modal for the current user's booking
                         setShowCancelModal(!showCancelModal)
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
@@ -232,6 +309,7 @@ const Timestamp = ({ date }) => {
                   error={error}
                   timestamp={timestampCopy}
                   bookTimeStamp={bookTimeStamp}
+                  handleUserBookingDate={handleUserBookingDate}
                 />
               ) : null}
               {showCancelModal ? (
@@ -242,6 +320,7 @@ const Timestamp = ({ date }) => {
                   error={error}
                   timestamp={timestampCopy}
                   cancelTimeStamp={cancelTimeStamp}
+                  handleUserCancellation={handleUserCancellation}
                 />
               ) : null}
             </>

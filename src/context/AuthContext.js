@@ -13,6 +13,9 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({})
   const [userInfo, setUserInfo] = useState(0)
   const [dbMonth, setDbMonth] = useState(0)
+  const [dateResponse, setDateResponse] = useState()
+  const [timestamps, setTimestamps] = useState()
+  const [globalDate, setGlobalDate] = useState()
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password)
@@ -38,6 +41,12 @@ export const AuthContextProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
+        globalDate,
+        setGlobalDate,
+        timestamps,
+        setTimestamps,
+        dateResponse,
+        setDateResponse,
         createUser,
         user,
         logout,
