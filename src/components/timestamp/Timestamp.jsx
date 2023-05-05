@@ -8,8 +8,7 @@ import {
   doc,
   setDoc,
   getDoc,
-  arrayUnion,
-  arrayRemove
+  arrayUnion
 } from "firebase/firestore"
 import { UserAuth } from "../../context/AuthContext"
 import SecondLoader from "../loadercomponents/SecondLoader"
@@ -47,6 +46,17 @@ const Timestamp = ({ date }) => {
     "december"
   ]
 
+  useEffect(() => {
+    fetchUserData()
+    fetchTimestamps()
+    cancelOldTimestamps()
+
+    // const intervalId = setInterval(async () => {
+    //   await fetchTimestamps()
+    // }, 60000) // call fetchTimestamps every 60 seconds (or change as needed)
+    // return () => clearInterval(intervalId)
+  }, [dbMonth])
+
   const setUserData = async () => {
     if (user.uid) {
       const addDoc = await setDoc(doc(db, "usersData", `${user.uid}`), {
@@ -73,6 +83,7 @@ const Timestamp = ({ date }) => {
       } else {
         setUserData()
         console.log("Document does not exist, added new user.")
+        console.log(userInfo)
       }
     } catch (error) {
       console.log(error)
@@ -97,11 +108,6 @@ const Timestamp = ({ date }) => {
     })
     return () => unsubscribe()
   }
-  useEffect(() => {
-    fetchUserData()
-    fetchTimestamps()
-  }, [dbMonth])
-
   const cancelTimeStamp = async (timestamp) => {
     await updateDoc(
       doc(db, `${month[dbMonth]}/${date}/timestamps`, timestamp.id),
@@ -131,6 +137,32 @@ const Timestamp = ({ date }) => {
       )
     }
   }
+
+  const cancelOldTimestamps = async () => {
+    const currentDate = new Date()
+    if (currentDate.getDate() !== 1) {
+      console.log("Not the first day of the month. Cancelling script.")
+      return
+    }
+
+    const previousMonth = month[dbMonth - 1]
+    console.log(previousMonth)
+    const timeslots = [
+      "07:00 - 11:00",
+      "11:00 - 15:00",
+      "15:00 - 18:00",
+      "18:00 - 22:00"
+    ]
+
+    for (let i = 1; i < 31; i++) {
+      console.log(`Updating timestamps for ${previousMonth} ${i}`)
+      // for (const timeslot of timeslots) {
+      //   const docRef = doc(db, `${previousMonth}/${i}/timestamps`, timeslot)
+      //   await updateDoc(docRef, { booked: false, bookingId: "" })
+      // }
+    }
+  }
+
   const handleUserBookingDate = async (timestamp) => {
     const isAlreadyBooked = userInfo.dateBooked.includes(date)
     if (isAlreadyBooked) {

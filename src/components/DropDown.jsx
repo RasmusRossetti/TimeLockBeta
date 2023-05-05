@@ -126,9 +126,9 @@ export default function DropDown() {
       </button>
       <div
         className={
-          isOpen
+          isOpen || userInfo.amountBooked === 0
             ? "hidden"
-            : "absolute w-56 mt-5 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+            : "absolute w-56 mt-5 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
         }
       >
         <ul
