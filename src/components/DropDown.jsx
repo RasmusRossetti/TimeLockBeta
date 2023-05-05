@@ -137,7 +137,7 @@ export default function DropDown() {
         >
           {userInfo?.dateBooked?.map((date, index) => (
             <div
-              onClick={() => handleShowCancelModal(index, date)}
+              // onClick={() => handleShowCancelModal(index, date)}
               className="w-44 py-2 items-center flex justify-center m-auto dark:hover:bg-gray-600"
               key={index}
             >
@@ -145,11 +145,11 @@ export default function DropDown() {
                 <div className="bg-gray-800 p-2">
                   <div className="flex w-44 justify-center items-center align-middle">
                     <p className="mr-2">
-                      {date} {userInfo.monthBooked[index]}
+                      {date} {userInfo?.monthBooked?.[index]}
                     </p>
-                    <p>{userInfo.timeBooked[index]}</p>
+                    <p>{userInfo?.timeBooked?.[index]}</p>
                   </div>
-                  <p className="text-red-700 ml-3 text-center">Cancel</p>
+                  {/* <p className="text-red-700 ml-3 text-center">Cancel</p> */}
                 </div>
               </div>
             </div>

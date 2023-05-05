@@ -21,13 +21,23 @@ export const AuthContextProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password)
   }
 
-  const signIn = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password)
+  const signIn = async (email, password) => {
+    const result = await signInWithEmailAndPassword(auth, email, password)
+    localStorage.setItem("user", JSON.stringify(result.user))
+    return result
   }
 
   const logout = () => {
+    localStorage.removeItem("user")
     return signOut(auth)
   }
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
+  }, [])
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
