@@ -49,12 +49,6 @@ const Timestamp = ({ date }) => {
   useEffect(() => {
     fetchUserData()
     fetchTimestamps()
-    cancelOldTimestamps()
-
-    // const intervalId = setInterval(async () => {
-    //   await fetchTimestamps()
-    // }, 60000) // call fetchTimestamps every 60 seconds (or change as needed)
-    // return () => clearInterval(intervalId)
   }, [dbMonth])
 
   const setUserData = async () => {
@@ -135,31 +129,6 @@ const Timestamp = ({ date }) => {
           theme: "dark"
         }
       )
-    }
-  }
-
-  const cancelOldTimestamps = async () => {
-    const currentDate = new Date()
-    if (currentDate.getDate() !== 1) {
-      console.log("Not the first day of the month. Cancelling script.")
-      return
-    }
-
-    const previousMonth = month[dbMonth - 1]
-    console.log(previousMonth)
-    const timeslots = [
-      "07:00 - 11:00",
-      "11:00 - 15:00",
-      "15:00 - 18:00",
-      "18:00 - 22:00"
-    ]
-
-    for (let i = 1; i < 31; i++) {
-      console.log(`Updating timestamps for ${previousMonth} ${i}`)
-      // for (const timeslot of timeslots) {
-      //   const docRef = doc(db, `${previousMonth}/${i}/timestamps`, timeslot)
-      //   await updateDoc(docRef, { booked: false, bookingId: "" })
-      // }
     }
   }
 
@@ -276,7 +245,7 @@ const Timestamp = ({ date }) => {
                       console.log(timestamp)
                       const isAlreadyBooked =
                         userInfo?.dateBooked?.includes(date) &&
-                        !userInfo?.monthBooked?.includes(month[dbMonth])
+                        userInfo?.monthBooked?.includes(month[dbMonth])
                       const isCurrentUserBooking =
                         timestamp.bookingId === user.uid
 

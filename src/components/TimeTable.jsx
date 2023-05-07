@@ -2,9 +2,9 @@ import React from "react"
 import { useEffect, useState } from "react"
 import { db } from "../firebase"
 import { query, collection, onSnapshot, orderBy } from "firebase/firestore"
-import Timestamp from "./timestamp/Timestamp"
 import Loader from "./loadercomponents/Loader"
 import { UserAuth } from "../context/AuthContext"
+import Timestamp from "./timestamp/Timestamp"
 
 const TimeTable = () => {
   const [dates, setDates] = useState([])
