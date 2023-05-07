@@ -164,7 +164,7 @@ const Timestamp = ({ date }) => {
   }
 
   const handleUserBookingDate = async (timestamp) => {
-    const isAlreadyBooked = userInfo.dateBooked.includes(date)
+    const isAlreadyBooked = userInfo?.dateBooked?.includes(date)
     if (isAlreadyBooked) {
       return
     }
@@ -273,9 +273,13 @@ const Timestamp = ({ date }) => {
                 return (
                   <div
                     onClick={() => {
-                      const isAlreadyBooked = userInfo.dateBooked.includes(date)
+                      console.log(timestamp)
+                      const isAlreadyBooked =
+                        userInfo?.dateBooked?.includes(date) &&
+                        !userInfo?.monthBooked?.includes(month[dbMonth])
                       const isCurrentUserBooking =
                         timestamp.bookingId === user.uid
+
                       if (isAlreadyBooked && !isCurrentUserBooking) {
                         toast.error(
                           "You have already booked a slot for this date",
@@ -292,14 +296,16 @@ const Timestamp = ({ date }) => {
                         )
                         return
                       }
+
                       setGlobalDate(date)
-                      if (timestamp.booked == true) {
+
+                      if (timestamp.booked === true) {
                         handleShowBookModal()
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
                       }
+
                       if (isCurrentUserBooking) {
-                        // show cancel modal for the current user's booking
                         setShowCancelModal(!showCancelModal)
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
