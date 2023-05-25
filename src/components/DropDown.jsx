@@ -13,8 +13,7 @@ export default function DropDown() {
   const [error, setError] = useState()
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(null)
   const [selectedDateIndex, setSelectedDateIndex] = useState()
-  const { dateResponse, user, globalDate, dbMonth, userInfo, setUserInfo } =
-    UserAuth()
+  const { user, userInfo } = UserAuth()
   const [handleDecrementBooking] = useBookingCounter()
 
   const month = [
@@ -31,8 +30,6 @@ export default function DropDown() {
     "november",
     "december"
   ]
-
-  console.log(userInfo)
 
   const cancelTimeStamp = async (timestamp) => {
     console.log(timestamp)

@@ -20,7 +20,6 @@ const Header = () => {
   const date = new Date()
   const months = date.getMonth()
   const { dbMonth, setDbMonth } = UserAuth()
-  console.log(dbMonth)
   useEffect(() => {
     setDbMonth(months)
   }, [months])

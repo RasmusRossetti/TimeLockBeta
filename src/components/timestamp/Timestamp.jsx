@@ -135,6 +135,7 @@ const Timestamp = ({ date }) => {
   const handleUserBookingDate = async (timestamp) => {
     const isAlreadyBooked = userInfo?.dateBooked?.includes(date)
     if (isAlreadyBooked) {
+      alert("You have already booked a slot for this date")
       return
     }
     const userRef = doc(db, "usersData", user.uid)
@@ -242,31 +243,30 @@ const Timestamp = ({ date }) => {
                 return (
                   <div
                     onClick={() => {
-                      console.log(timestamp)
-                      const isAlreadyBooked =
-                        userInfo?.dateBooked?.includes(date) &&
-                        userInfo?.monthBooked?.includes(month[dbMonth])
-                      const isCurrentUserBooking =
-                        timestamp.bookingId === user.uid
+                      // const isAlreadyBooked =
+                      //   userInfo?.dateBooked?.includes(date) &&
+                      //   userInfo?.monthBooked?.includes(month[dbMonth])
+                      // const isCurrentUserBooking =
+                      //   timestamp.bookingId === user.uid
 
-                      if (isAlreadyBooked && !isCurrentUserBooking) {
-                        toast.error(
-                          "You have already booked a slot for this date",
-                          {
-                            position: "top-center",
-                            autoClose: 3000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "dark"
-                          }
-                        )
-                        return
-                      }
+                      // if (isAlreadyBooked && !isCurrentUserBooking) {
+                      //   toast.error(
+                      //     "You have already booked a slot for this date",
+                      //     {
+                      //       position: "top-center",
+                      //       autoClose: 3000,
+                      //       hideProgressBar: false,
+                      //       closeOnClick: true,
+                      //       pauseOnHover: true,
+                      //       draggable: true,
+                      //       progress: undefined,
+                      //       theme: "dark"
+                      //     }
+                      //   )
+                      //   return
+                      // }
 
-                      setGlobalDate(date)
+                      // setGlobalDate(date)
 
                       if (timestamp.booked === true) {
                         handleShowBookModal()
@@ -274,7 +274,8 @@ const Timestamp = ({ date }) => {
                         setTimestampCopy(timestamp)
                       }
 
-                      if (isCurrentUserBooking) {
+                      // if (isCurrentUserBooking) {
+                      if (timestamp.bookingId == user.uid) {
                         setShowCancelModal(!showCancelModal)
                         setTimestampId(timestamp.id)
                         setTimestampCopy(timestamp)
